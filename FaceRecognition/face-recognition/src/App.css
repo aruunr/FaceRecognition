@@ -7,7 +7,15 @@
     justify-content: center;
 }
 
-
+.bounding-box {
+  position: absolute;
+  box-shadow: 0 0 0 3px #149df2 inset;
+  display: -ms-flexbox;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  cursor: pointer;
+}
 
 .App-logo {
   animation: App-logo-spin infinite 20s linear;
