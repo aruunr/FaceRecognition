@@ -21,25 +21,7 @@ app.use(bodyParser.urlencoded({extended: false}))
 app.use(bodyParser.json())
 app.use(cors())
 
-const database = {
-    users: [
-     {
-        id: '1',
-        name: 'Arun',
-        email : 'a@g.com',
-        password : 'q1',
-         entries : 0,
-        joined : new Date()
-     }  , {
-         id: '2',
-        name: 'hitman',
-        email : 'hitman@gmail.com',
-        password : 'zaq123',
-         entries : 0,
-        joined : new Date()  
-     } 
-    ]
-}
+
 
          
 app.listen(3000, () => {   
@@ -51,37 +33,24 @@ app.listen(3000, () => {
          
 //Profile get------------   
 app.get('/profile/:id', (req, res) => {
-   const {id} = req.params;  
-  database.users.filter((user) => {
-       if (user.id === id){
-           return res.json(user);
-       } 
-   })
+
   
    res.send('hello world');
 })
 
 //Image Entries(Rank)--------------
 app.put('/image',  (req, res) => {
-    console.log(req.body)
-      database.users.forEach(user => {
-    if (user.id === req.body.id) {
-      user.entries++
-      console.log(user.entries)
-      res.json(user.entries)
-    }
-  });
+pg('users')
+.where('id', '=', req.body.id)
+.increment('entries',1)
+.returning('entries')
+.then(entries => res.json(entries))
 })
 
 //Signin--------------
 app.post('/signin',  (req, res) => {
     
-  if (req.body.email === database.users[0].email && req.body.password === database.users[0].password){
-    
-      res.json(database.users[0])
-  }   else {
-      res.status(400).json('Login Error');
-  } 
+
   
 })
 
@@ -100,7 +69,7 @@ app.post('/register',  (req, res) => {
     }).catch(err =>
      res.status(400).json('Error in registering')
     );
-    database.users.push();
+    
 })
 
          
