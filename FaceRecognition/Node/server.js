@@ -2,6 +2,18 @@ const express = require('express');
 const bodyParser = require('body-parser');
 const cors = require('cors');
 const bcrypt = require('bcrypt');
+const knex = require('knex')
+
+const pg = knex({
+  client: 'pg',
+  connection: {
+    host : '127.0.0.1',
+    user : 'arun',
+    password : '',
+    database : 'arun'
+  }
+});
+
 
 
 const app = express();
@@ -50,8 +62,15 @@ app.get('/profile/:id', (req, res) => {
 })
 
 //Image Entries(Rank)--------------
-app.post('/image',  (req, res) => {
-    
+app.put('/image',  (req, res) => {
+    console.log(req.body)
+      database.users.forEach(user => {
+    if (user.id === req.body.id) {
+      user.entries++
+      console.log(user.entries)
+      res.json(user.entries)
+    }
+  });
 })
 
 //Signin--------------
@@ -59,7 +78,7 @@ app.post('/signin',  (req, res) => {
     
   if (req.body.email === database.users[0].email && req.body.password === database.users[0].password){
     
-      res.json('success')
+      res.json(database.users[0])
   }   else {
       res.status(400).json('Login Error');
   } 
@@ -68,7 +87,19 @@ app.post('/signin',  (req, res) => {
 
 //Register--------------
 app.post('/register',  (req, res) => {
-    console.log('Hi');
+    console.log('In register');
+    pg('users')
+        .returning('*')
+        .insert({
+        email: req.body.email,
+        name : req.body.name,
+        joined : new Date()
+    }).then(user => {
+        
+        res.json(user[0]);
+    }).catch(err =>
+     res.status(400).json('Error in registering')
+    );
     database.users.push();
 })
 

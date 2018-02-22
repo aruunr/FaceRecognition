@@ -29,11 +29,14 @@ class signin extends Component{
     password: this.state.signInPassword
   })
       }).then(response => response.json())
-      .then(data => {
-          if (data === 'success') {  
+      .then(user => {
+          if (user.id) {  
+              console.log("in signin user");
+            this.props.loadUser(user);  
             this.props.onRouteChange('home');
           }
           else{ 
+              console.log("in signin else");
               this.props.onRouteChange('signin');
           }
       })
