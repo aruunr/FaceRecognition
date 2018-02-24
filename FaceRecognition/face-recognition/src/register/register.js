@@ -23,7 +23,7 @@ onNameChange = (event) => {
   onRegnSubmit = () => {
       console.log("in register");
      
-      fetch('http://localhost:3000/register', {
+      fetch('https://infinite-ocean-40943.herokuapp.com/register', {
   method: 'post',
   headers: {
     

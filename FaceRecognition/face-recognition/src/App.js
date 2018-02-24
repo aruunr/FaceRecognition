@@ -106,7 +106,7 @@ class App extends Component {
           response => 
             {
               if(response) {
-                fetch('http://localhost:3000/image',{method: 'put',
+                fetch('https://infinite-ocean-40943.herokuapp.com/image',{method: 'put',
   headers: { 'Content-Type': 'application/json',
   },
   body: JSON.stringify({
