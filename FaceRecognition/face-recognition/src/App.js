@@ -50,11 +50,8 @@ const particleOptions = {
             		}}
             	}
 
-class App extends Component {
-    
-    constructor(){
-        super();
-        this.state = {
+
+const initialState = {
             input : '',
             imageURL : '',
             box : '',
@@ -68,6 +65,12 @@ class App extends Component {
                 joined : ''
             }
         }   
+
+class App extends Component {
+    
+    constructor(){
+        super();
+        this.state = initialState
     }
     
   
@@ -110,7 +113,7 @@ class App extends Component {
     id: this.state.user.id
   })}).then(response => response.json())
         .then(count => {
-               console.log(count); this.setState(Object.assign(this.state.user,{entries : count}))    
+                this.setState(Object.assign(this.state.user,{entries : count}))    
                     
                 })
                 }
@@ -125,7 +128,7 @@ class App extends Component {
      onRouteChange = (route) => {
          this.setState({route : route});
          if (route === 'signout' ){
-            this.setState({isSignedIn : false}); 
+            this.setState({initialState}); 
          }else if (route === 'home' ){
              this.setState({isSignedIn : true});
          }
