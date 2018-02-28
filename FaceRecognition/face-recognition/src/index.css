@@ -1,10 +1,14 @@
+
 body {
   margin: 0;
   padding: 0;
   font-family: "roboto";
     
 }
-
+.sweet-loading{
+     z-index: -1;
+    position: absolute;
+}
 .particles{
     position: fixed;
     z-index: -1;

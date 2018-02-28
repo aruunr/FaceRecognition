@@ -12,8 +12,6 @@ import Signin from './signin/signin';
 //import particleOptions from './particles.json';
 import Register from './register/register';
 
-import 'tachyons';
-
 const app = new Clarifai.App({
  apiKey: 'bf49e7d50ec9414cab121fa8dbc3491e'
 });
@@ -23,8 +21,8 @@ const particleOptions = {
             			line_linked: {
             				shadow: {
             					enable: true,
-            					color: "#1AA9D1",
-            					blur: 4
+            					color: "#0044A0",
+            					blur: 3
             				}
             			},
                     number : {
@@ -57,12 +55,13 @@ const initialState = {
             box : '',
             route : 'signin',
             isSignedIn : false,
+    isSignedOut : true,
             user: {
                 id: '',
                 name : '',
                 email : '',
                 entries : 0,
-                joined : ''
+                joined : '' 
             }
         }   
 
@@ -70,7 +69,7 @@ class App extends Component {
     
     constructor(){
         super();
-        this.state = initialState
+        this.state = initialState;
     }
     
   
@@ -126,12 +125,15 @@ class App extends Component {
     }
      
      onRouteChange = (route) => {
-         this.setState({route : route});
+      
          if (route === 'signout' ){
-            this.setState({initialState}); 
+             console.log('in signout func')
+            this.setState(initialState); 
+             
          }else if (route === 'home' ){
              this.setState({isSignedIn : true});
          }
+            this.setState({route : route});
      }
      
      loadUser = (data) => {
@@ -147,8 +149,9 @@ class App extends Component {
   render() {
     return (
       <div className="App">
+     
         <Particles className = 'particles' params={particleOptions} />
-          <Navigation isSignedIn = {this.state.isSignedIn} onRouteChange = {this.onRouteChange}/>
+          <Navigation isSignedIn = {this.state.isSignedIn} isSignedOut ={this.state.isSignedOut} onRouteChange = {this.onRouteChange}/>
         {
         (this.state.route === 'home')
         ?  <div> 

@@ -1,7 +1,7 @@
 const express = require('express');
 const bodyParser = require('body-parser');
 const cors = require('cors');
-const bcrypt = require('bcrypt');
+const bcrypt = require('bcryptjs');
 const knex = require('knex')
 const saltRounds = 10;
 const register = require('./controllers/register');
@@ -9,10 +9,8 @@ const signin = require('./controllers/signin');
 const pg = knex({
   client: 'pg',
   connection: {
-    host : '127.0.0.1',
-    user : 'arun',
-    password : '',
-    database : 'arun'
+    connectionString : process.env.DATABASE_URL,
+    ssl : true
   }
 });
 
@@ -21,9 +19,8 @@ app.use(bodyParser.urlencoded({extended: false}))
 app.use(bodyParser.json())
 app.use(cors())
         
-app.listen(3000, () => {   
-});
 
+app.get('/', (req,res) => {res.send('working')})
 //Image Entries(Rank)--------------
 app.put('/image',  (req, res) => {
 pg('users')
@@ -43,4 +40,6 @@ app.post('/register', (req,res) => {register.handleUserRegistration(req,res,pg, 
 app.get('/profile/:id', (req, res) => {  
    res.send('hello world');
 })
-         
+
+var port = process.env.PORT || 5000;
+app.listen(port);
